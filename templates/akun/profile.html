@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container profile-container">
+    <h2>Profile</h2>
+    <p><strong>First Name:</strong> {{ request.user.first_name }}</p>
+    <p><strong>Last Name:</strong> {{ request.user.last_name }}</p>
+    <p><strong>Email:</strong> {{ request.user.email }}</p>
+    <p><strong>Bio:</strong> {{ request.user.profile.bio }}</p>
+    <p><strong>Tempat Lahir:</strong> {{ request.user.profile.kabupaten }}</p>
+    <p><strong>Tanggal Lahir:</strong> {{ request.user.profile.tanggal_lahir }}</p>
+    <p><strong>Location:</strong> {{ request.user.profile.location }}</p>
+    <a href="{% url 'edit_profile' %}" class="btn-edit-profile">Edit Profile</a><br><br>
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-secondary logout-btn">Logout</button>
+    </form>
+
+    <h3 class="toggle-btn">Informasi Cuaca</h3>
+    <div class="weather-info">
+        {% if weather_data %}
+            <p><strong>Suhu:</strong> {{ weather_data.main.temp }} °C</p>
+            <p><strong>Terasa Seperti:</strong> {{ weather_data.main.feels_like }} °C</p>
+            <p><strong>Suhu Minimum:</strong> {{ weather_data.main.temp_min }} °C</p>
+            <p><strong>Suhu Maksimum:</strong> {{ weather_data.main.temp_max }} °C</p>
+            <p><strong>Tekanan Udara:</strong> {{ weather_data.main.pressure }} hPa</p>
+            <p><strong>Kelembaban:</strong> {{ weather_data.main.humidity }}%</p>
+            <p><strong>Kondisi:</strong> {{ weather_data.weather.0.description }}</p>
+            <p><strong>Kecepatan Angin:</strong> {{ weather_data.wind.speed }} m/s</p>
+            <p><strong>Arah Angin:</strong> {{ weather_data.wind.deg }}°</p>
+            <p><strong>Awan:</strong> {{ weather_data.clouds.all }}%</p>
+            <p><strong>Waktu Matahari Terbit:</strong> {{ weather_data.sys.sunrise|date:"H:i:s" }} (UTC)</p>
+            <p><strong>Waktu Matahari Terbenam:</strong> {{ weather_data.sys.sunset|date:"H:i:s" }} (UTC)</p>
+            <p><strong>Visibilitas:</strong> {{ weather_data.visibility }} meter</p>
+            <p><strong>Zona Waktu:</strong> {{ weather_data.timezone }}</p>
+            <p><strong>Nama Kota:</strong> {{ weather_data.name }}</p>
+            <pre>{{ weather_data|json_script:"weatherData" }}</pre>  <!-- Menampilkan seluruh data untuk referensi -->
+        {% else %}
+            <p>Informasi cuaca tidak tersedia untuk lokasi "{{ location }}". Silakan coba kota lain.</p>
+        {% endif %}
+    </div>
+    </div>
+
+    <script>
+        // JavaScript untuk toggle informasi cuaca
+        document.querySelector('.toggle-btn').addEventListener('click', function() {
+            var weatherInfo = document.querySelector('.weather-info');
+            if (weatherInfo.style.display === 'none' || weatherInfo.style.display === '') {
+                weatherInfo.style.display = 'block';
+            } else {
+                weatherInfo.style.display = 'none';
+            }
+        });
+    </script>
+ 
+</body>
+</html>

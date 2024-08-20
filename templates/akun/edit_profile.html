@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Edit Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container form-container">
+        <br><h2>Edit Profile</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ user_form.as_p }}
+            </div>
+            <div class="form-group">
+                {{ profile_form.as_p }}
+            </div>
+
+            <div class="form-group">
+                <h3>Tempat Lahir</h3>
+                <label for="id_provinsi">Provinsi:</label>
+                <select id="id_provinsi" name="provinsi" class="form-control">
+                    <option value="">Pilih Provinsi</option>
+                    {% for provinsi in provinsi_list %}
+                    <option value="{{ provinsi.id }}" {% if provinsi.id == request.user.profile.provinsi %}selected{% endif %}>
+                        {{ provinsi.name }}
+                    </option>
+                    {% endfor %}
+                </select>                
+            </div>
+
+            <div class="form-group">
+                <label for="id_kabupaten">Kabupaten:</label>
+                <select id="id_kabupaten" name="kabupaten" class="form-control">
+                    <option value="">Pilih Kabupaten</option>
+                    {% if kabupaten_list %}
+                        {% for kabupaten in kabupaten_list %}
+                        <option value="{{ kabupaten.id }}" {% if kabupaten.id == request.user.profile.kabupaten %}selected{% endif %}>
+                            {{ kabupaten.name }}
+                        </option>
+                        {% endfor %}
+                    {% endif %}
+                </select>                
+            </div>
+
+            <div class="form-group">
+                <label for="id_kecamatan">Kecamatan:</label>
+                <select id="id_kecamatan" name="kecamatan" class="form-control">
+                    <option value="">Pilih Kecamatan</option>
+                    {% if kecamatan_list %}
+                        {% for kecamatan in kecamatan_list %}
+                        <option value="{{ kecamatan.id }}" {% if kecamatan.id == request.user.profile.kecamatan %}selected{% endif %}>
+                            {{ kecamatan.name }}
+                        </option>
+                        {% endfor %}
+                    {% endif %}
+                </select>                
+            </div>
+
+            <div class="form-group">
+                <label for="id_kelurahan">Kelurahan:</label>
+                <select id="id_kelurahan" name="kelurahan" class="form-control">
+                    <option value="">Pilih Kelurahan</option>
+                    {% if kelurahan_list %}
+                        {% for kelurahan in kelurahan_list %}
+                        <option value="{{ kelurahan.id }}" {% if kelurahan.id == request.user.profile.kelurahan %}selected{% endif %}>
+                            {{ kelurahan.name }}
+                        </option>
+                        {% endfor %}
+                    {% endif %}
+                </select>                
+            </div>
+
+            <div class="form-group">
+                <h3>Tanggal Lahir</h3>
+                <label for="id_tanggal_lahir">Tanggal Lahir:</label>
+                <input type="date" id="id_tanggal_lahir" name="tanggal_lahir" required class="form-control"
+                       value="{{ request.user.profile.tanggal_lahir|date:'Y-m-d' }}">
+            </div>            
+            <br>
+            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+            <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+
+    <script>
+        // JavaScript untuk menangani perubahan dropdown dengan AJAX
+        $("#id_provinsi").change(function () {
+            var url = "{% url 'ajax_load_kabupaten' %}";
+            var provinsiId = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: {
+                    'provinsi_id': provinsiId
+                },
+                success: function (data) {
+                    $("#id_kabupaten").html('<option value="">Pilih Kabupaten</option>');
+                    $.each(data, function (index, value) {
+                        $("#id_kabupaten").append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                }
+            });
+        });
+
+        $("#id_kabupaten").change(function () {
+            var url = "{% url 'ajax_load_kecamatan' %}";
+            var kabupatenId = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: {
+                    'kabupaten_id': kabupatenId
+                },
+                success: function (data) {
+                    $("#id_kecamatan").html('<option value="">Pilih Kecamatan</option>');
+                    $.each(data, function (index, value) {
+                        $("#id_kecamatan").append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                }
+            });
+        });
+
+        $("#id_kecamatan").change(function () {
+            var url = "{% url 'ajax_load_kelurahan' %}";
+            var kecamatanId = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: {
+                    'kecamatan_id': kecamatanId
+                },
+                success: function (data) {
+                    $("#id_kelurahan").html('<option value="">Pilih Kelurahan</option>');
+                    $.each(data, function (index, value) {
+                        $("#id_kelurahan").append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

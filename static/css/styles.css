@@ -1,0 +1,141 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 20px;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.profile-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container p {
+    font-size: 1.2rem;
+}
+
+.profile-container a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.profile-container a:hover {
+    text-decoration: underline;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.logout-btn {
+    margin-top: 10px;
+}
+
+.toggle-btn {
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.weather-info {
+    display: none;
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+select, input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+button {
+    margin-top: 10px;
+}
+
+.form-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+footer {
+    background-color: #5f7996;  /* Warna biru */
+    color: #fff;  /* Warna teks putih agar kontras */
+    padding: 20px 0;
+    margin-top: 40px;
+}
+
+/* Gaya untuk tombol Edit Profile */
+.profile-container a.btn-edit-profile {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-size: 16px;
+    background-color: #28a745; /* Hijau */
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.profile-container a.btn-edit-profile:hover {
+    background-color: #218838; /* Hijau lebih gelap saat hover */
+}
+
+/* Gaya untuk tombol Informasi Cuaca */
+.profile-container .toggle-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 20px;
+    font-size: 16px;
+    background-color: #17a2b8; /* Biru muda */
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-container .toggle-btn:hover {
+    background-color: #138496; /* Biru lebih gelap saat hover */
+}
+
+/* Gaya untuk tombol Logout */
+.logout-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #6c757d; /* Abu-abu */
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #5a6268; /* Abu-abu lebih gelap saat hover */
+}
+
